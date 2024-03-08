@@ -13,10 +13,8 @@ return {
       "sqlls",
       "typescript-language-server",
       "yaml-language-server",
-      "netcoredbg",
       "eslint_d",
       "sonarlint-language-server",
-      "luacheck",
     },
   },
 }
