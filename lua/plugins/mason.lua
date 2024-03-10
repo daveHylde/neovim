@@ -2,7 +2,6 @@ return {
   "williamboman/mason.nvim",
   opts = {
     ensure_installed = {
-      "csharp-language-server",
       "csharpier",
       "angular-language-server",
       "css-lsp",
