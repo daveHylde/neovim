@@ -31,8 +31,10 @@ return {
           command = "EslintFixAll",
           })
         end,
+      },
+      csharp_ls = {
+        cmd = { "/etc/profiles/per-user/david/bin/csharp-ls" },
       }
-
     },
   },
 }
