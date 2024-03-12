@@ -16,21 +16,12 @@ return {
   opts = {
     ---@type lspconfig.options
     servers = {
-      -- tsserver will be automatically installed with mason and loaded with lspconfig
       tsserver = {
         root_dir = util.root_pattern("package.json", ".git", "tsconfig.base.json"),
       },
       angularls = {
         root_dir = util.root_pattern("angular.json", "project.json"), -- This is for monorepo's
         filetypes = { "html", "typescript", "typescriptreact", "angular" },
-      },
-      eslint = {
-        on_attach = function(client, bufnr)
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            command = "EslintFixAll",
-          })
-        end,
       },
     },
   },
