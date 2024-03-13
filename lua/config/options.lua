@@ -4,3 +4,4 @@
 --
 vim.opt.guifont = { "Fira Code", "h12" }
 vim.opt.relativenumber = false
+vim.opt.linebreak = true

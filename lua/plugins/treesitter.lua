@@ -8,6 +8,7 @@ return {
       "c_sharp",
       "bash",
       "html",
+      "http",
       "javascript",
       "json",
       "lua",
