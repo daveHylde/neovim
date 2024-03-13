@@ -3,3 +3,4 @@
 -- Add any additional options here
 --
 vim.opt.guifont = { "Fira Code", "h12" }
+vim.opt.relativenumber = false
