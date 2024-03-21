@@ -2,6 +2,11 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 --
-vim.opt.guifont = { "Fira Code", "h12" }
-vim.opt.relativenumber = false
-vim.opt.linebreak = true
+local opt = vim.opt
+
+opt.guifont = { "Fira Code", "h12" }
+opt.relativenumber = false
+opt.linebreak = true
+opt.wrap = true
+
+vim.g.minipairs_disable = true

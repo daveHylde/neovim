@@ -22,3 +22,6 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap("n", "<leader><F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
+
+-- dadbod
+vim.api.nvim_set_keymap("n", "<leader>kk", "<cmd>DBUIToggle<cr>", { noremap = true, silent = true })
