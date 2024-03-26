@@ -19,7 +19,14 @@ return {
       function()
         require("harpoon"):list():remove()
       end,
-      desc = "Harpoon file",
+      desc = "remove Harpoon file",
+    },
+    {
+      "<leader>hc",
+      function()
+        require("harpoon"):list():clear()
+      end,
+      desc = "Clear Harpoon list",
     },
     {
       "<leader>hh",

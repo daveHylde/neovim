@@ -4,17 +4,18 @@ return {
   { "thenbe/neotest-playwright" },
   {
     "nvim-neotest/neotest",
-    opts = { adapters = { 
-      "neotest-plenary",
-      ["neotest-dotnet"] = {
-        dap = { justMyCode = false },
-        dotnet_additional_args = {
-          "--verbosity detailed",
-          "--collect:\"XPlat Code Coverage\""
+    opts = {
+      adapters = {
+        "neotest-plenary",
+        ["neotest-dotnet"] = {
+          dap = { justMyCode = false },
+          dotnet_additional_args = {
+            "--verbosity detailed",
+            "--collect:\"XPlat Code Coverage\""
+          },
+          discovery_root = "solution"
         },
-        discovery_root = "solution"
-      },   
-    }, 
+      },
     },
   },
 }
