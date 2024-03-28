@@ -29,9 +29,6 @@ return {
           root_dir = util.root_pattern("angular.json", "project.json"), -- This is for monorepo's
           filetypes = { "html", "typescript", "typescriptreact", "angular" },
         },
-        lua_ls = {
-          cmd = { "/etc/profiles/per-user/david/bin/lua-language-server" },
-        },
         omnisharp = {
           handlers = {
             ["textDocument/definition"] = function(...)

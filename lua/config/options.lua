@@ -4,9 +4,9 @@
 --
 local opt = vim.opt
 
-opt.guifont = { "Fira Code", "h12" }
 opt.relativenumber = false
 opt.linebreak = true
 opt.wrap = true
+opt.swapfile = false
 
 vim.g.minipairs_disable = true

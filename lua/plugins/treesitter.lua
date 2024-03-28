@@ -11,6 +11,7 @@ return {
       "http",
       "javascript",
       "json",
+      "jsonc",
       "lua",
       "markdown",
       "markdown_inline",
@@ -20,6 +21,15 @@ return {
       "typescript",
       "vim",
       "yaml",
+      "sql",
+      "scss",
+      "css",
+      "xml",
+      "dockerfile",
+      "dot",
+      "cpp",
+      "nix",
+      "graphql"
     },
   },
 }

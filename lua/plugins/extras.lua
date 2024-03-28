@@ -13,8 +13,9 @@ return {
     },
   },
   { "gpanders/editorconfig.nvim" },
-  { "tpope/vim-dotenv", cmd = "Dotenv" },
+  { "tpope/vim-dotenv",          cmd = "Dotenv" },
   { "jlcrochet/vim-razor" },
-  { "garyhurtz/cmp_bulma.nvim" },
-  { "numToStr/Comment.nvim", lazy = false },
+  { "garyhurtz/cmp_bulma.nvim",  opts = {} },
+  { "3rd/image.nvim",            opts = {} },
+  { "numToStr/Comment.nvim",     lazy = false },
 }
