@@ -22,19 +22,18 @@ return {
           root_dir = util.root_pattern("package.json", ".git", "tsconfig.base.json"),
           keys = {
             { "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
-            { "<leader>cR", "<cmd>TypescriptRenameFile<CR>",      desc = "Rename File" },
+            { "<leader>cR", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" },
           },
         },
         angularls = {
           root_dir = util.root_pattern("angular.json", "project.json"), -- This is for monorepo's
           filetypes = { "html", "typescript", "typescriptreact", "angular" },
         },
-        nixd = {},
         html = {
-          filetypes = {"html", "templ", "razor", "aspnetcorerazor"},
+          filetypes = { "html", "templ", "razor", "aspnetcorerazor" },
         },
         omnisharp = {
-          filetypes = {"cs", "vb", "razor", "aspnetcorerazor"},
+          filetypes = { "cs", "vb", "razor", "aspnetcorerazor" },
           handlers = {
             ["textDocument/definition"] = function(...)
               return require("omnisharp_extended").handler(...)
@@ -55,5 +54,5 @@ return {
         },
       },
     },
-  }
+  },
 }
