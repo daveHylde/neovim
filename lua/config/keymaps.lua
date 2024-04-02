@@ -12,16 +12,5 @@ vim.keymap.set("n", "<leader>ng", "<cmd>Telescope nx generators<CR>", {})
 vim.keymap.set("n", "<leader>nm", "<cmd>Telescope nx run_many<CR>", {})
 vim.keymap.set("n", "<leader>na", "<cmd>Telescope nx affected<CR>", {})
 
--- compiler
-vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader><F6>",
-  "<cmd>CompilerStop<cr>" -- (Optional, to dispose all tasks before redo)
-    .. "<cmd>CompilerRedo<cr>",
-  { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap("n", "<leader><F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
-
 -- dadbod
 vim.api.nvim_set_keymap("n", "<leader>kk", "<cmd>DBUIToggle<cr>", { noremap = true, silent = true })
