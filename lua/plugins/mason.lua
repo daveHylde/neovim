@@ -11,8 +11,6 @@ return {
       "sqlls",
       "typescript-language-server",
       "yaml-language-server",
-      "eslint_d",
-      "eslint-lsp",
       "sonarlint-language-server",
       "docker-compose-language-service",
       "dockerfile-language-server",
