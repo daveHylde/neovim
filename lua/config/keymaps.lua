@@ -25,3 +25,16 @@ vim.api.nvim_set_keymap("n", "<leader><F7>", "<cmd>CompilerToggleResults<cr>", {
 
 -- dadbod
 vim.api.nvim_set_keymap("n", "<leader>kk", "<cmd>DBUIToggle<cr>", { noremap = true, silent = true })
+
+-- DAP
+vim.keymap.set("n", "<leader>dEr", function()
+  require("dap").set_exception_breakpoints({ "raised" })
+end, { desc = "Stop on exceptions" }) -- TODO this one doesn't show on which-key
+
+vim.keymap.set("n", "<leader>dEa", function()
+  require("dap").set_exception_breakpoints({ "raised", "uncaught" })
+end, { desc = "Stop on all" })
+
+vim.keymap.set("n", "<leader>dEn", function()
+  require("dap").set_exception_breakpoints()
+end, { desc = "Don't stop on any exceptions" }) -- TODO this one doesn't show on which-key

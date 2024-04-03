@@ -29,11 +29,8 @@ return {
           root_dir = util.root_pattern("angular.json", "project.json"), -- This is for monorepo's
           filetypes = { "html", "typescript", "typescriptreact", "angular" },
         },
-        html = {
-          filetypes = { "html", "templ", "razor", "aspnetcorerazor" },
-        },
         omnisharp = {
-          filetypes = { "cs", "vb", "razor", "aspnetcorerazor" },
+          filetypes = { "cs", "vb" },
           handlers = {
             ["textDocument/definition"] = function(...)
               return require("omnisharp_extended").handler(...)

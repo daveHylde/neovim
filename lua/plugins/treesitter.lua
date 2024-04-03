@@ -29,7 +29,8 @@ return {
       "dot",
       "cpp",
       "nix",
-      "graphql"
+      "graphql",
+      "vimdoc",
     },
   },
 }
