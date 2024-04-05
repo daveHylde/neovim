@@ -38,5 +38,5 @@ return {
       razor = COLORIZER_OPTIONS,
     },
   },
-  { "numToStr/Comment.nvim", lazy = false },
+  { "mbbill/undotree" },
 }

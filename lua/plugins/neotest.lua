@@ -8,12 +8,11 @@ return {
       adapters = {
         "neotest-plenary",
         ["neotest-dotnet"] = {
-          dap = { justMyCode = false },
+          dap = { justMyCode = true },
           dotnet_additional_args = {
-            "--verbosity detailed",
-            "--collect:\"XPlat Code Coverage\""
+            '--collect:"XPlat Code Coverage"',
           },
-          discovery_root = "solution"
+          discovery_root = "solution",
         },
       },
     },

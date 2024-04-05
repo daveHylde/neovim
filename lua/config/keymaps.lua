@@ -27,3 +27,9 @@ end, { desc = "Stop on all" })
 vim.keymap.set("n", "<leader>dEn", function()
   require("dap").set_exception_breakpoints()
 end, { desc = "Don't stop on any exceptions" }) -- TODO this one doesn't show on which-key
+
+-- undotree
+vim.keymap.set("n", "<leader>uu", function()
+  vim.cmd("UndotreeToggle")
+  vim.cmd("UndotreeFocus")
+end, { desc = "Toggle Undotree" })
