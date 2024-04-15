@@ -27,6 +27,7 @@ return {
   { "gpanders/editorconfig.nvim" },
   { "tpope/vim-dotenv", cmd = "Dotenv" },
   { "jlcrochet/vim-razor" },
+  { "andreshazard/vim-freemarker" },
   { "garyhurtz/cmp_bulma.nvim", opts = {} },
   { "3rd/image.nvim", opts = {} },
   {
