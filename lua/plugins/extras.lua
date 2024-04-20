@@ -30,6 +30,7 @@ return {
   { "andreshazard/vim-freemarker" },
   { "garyhurtz/cmp_bulma.nvim", opts = {} },
   { "3rd/image.nvim", opts = {} },
+  { "camdencheek/tree-sitter-dockerfile" },
   {
     "norcalli/nvim-colorizer.lua",
     opts = {
