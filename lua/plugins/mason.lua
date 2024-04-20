@@ -16,7 +16,6 @@ return {
       "dockerfile-language-server",
       "marksman",
       "omnisharp",
-      "rnix-lsp",
     },
   },
 }
