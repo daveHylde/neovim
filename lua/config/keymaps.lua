@@ -45,7 +45,7 @@ vim.keymap.set("n", "<leader>uu", function()
 end, { desc = "Toggle Undotree" })
 
 -- Move to window using the <alt> yneo keys
-vim.keymap.set("n", "<M-y>", "<C-w>h", { desc = "Go to Left Window", remap = true })
-vim.keymap.set("n", "<M-n>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-vim.keymap.set("n", "<M-e>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-vim.keymap.set("n", "<M-o>", "<C-w>l", { desc = "Go to Right Window", remap = true })
+vim.keymap.set("n", "<M-Left>", ":wincmd h<CR>", { desc = "Go to Left Window", silent = true })
+vim.keymap.set("n", "<M-Down>", ":wincmd j<CR>", { desc = "Go to Lower Window", silent = true })
+vim.keymap.set("n", "<M-Up>", ":wincmd k<CR>", { desc = "Go to Upper Window", silent = true })
+vim.keymap.set("n", "<M-Right>", ":wincmd l<CR>", { desc = "Go to Right Window", silent = true })
