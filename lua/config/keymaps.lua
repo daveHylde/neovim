@@ -45,7 +45,19 @@ vim.keymap.set("n", "<leader>uu", function()
 end, { desc = "Toggle Undotree" })
 
 -- Move to window using the <alt> yneo keys
-vim.keymap.set("n", "<M-Left>", ":wincmd h<CR>", { desc = "Go to Left Window", silent = true })
-vim.keymap.set("n", "<M-Down>", ":wincmd j<CR>", { desc = "Go to Lower Window", silent = true })
-vim.keymap.set("n", "<M-Up>", ":wincmd k<CR>", { desc = "Go to Upper Window", silent = true })
-vim.keymap.set("n", "<M-Right>", ":wincmd l<CR>", { desc = "Go to Right Window", silent = true })
+vim.keymap.set("n", "<c-Left>", ":TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true, remap = true })
+vim.keymap.set("n", "<c-Down>", ":TmuxNavigateDown<CR>", { desc = "Go to Lower Window", silent = true, remap = true })
+vim.keymap.set("n", "<c-Up>", ":TmuxNavigateUp<CR>", { desc = "Go to Upper Window", silent = true, remap = true })
+vim.keymap.set("n", "<c-Right>", ":TmuxNavigateRight<CR>", { desc = "Go to Right Window", silent = true, remap = true })
+vim.keymap.set(
+  "n",
+  "<c-p>",
+  ":TmuxNavigatePrevious<CR>",
+  { desc = "Go to Previous Window", silent = true, remap = true }
+)
+
+-- Resize window using <ctrl> arrow keys
+vim.keymap.set("n", "<M-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+vim.keymap.set("n", "<M-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+vim.keymap.set("n", "<M-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+vim.keymap.set("n", "<M-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
