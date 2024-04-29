@@ -17,13 +17,6 @@ return {
           desc = "Harpoon File",
         },
         {
-          "<leader>hc",
-          function()
-            require("harpoon"):list():clear()
-          end,
-          desc = "Clear Harpoon List",
-        },
-        {
           "<leader>hh",
           function()
             local harpoon = require("harpoon")
@@ -35,7 +28,7 @@ return {
 
       for i = 1, 5 do
         table.insert(keys, {
-          "<c-" .. i .. ">",
+          "<leader>" .. i,
           function()
             require("harpoon"):list():select(i)
           end,
