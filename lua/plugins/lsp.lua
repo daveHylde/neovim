@@ -30,7 +30,7 @@ return {
           filetypes = { "html", "typescript", "typescriptreact", "angular" },
         },
         omnisharp = {
-          filetypes = { "cs", "vb" },
+          filetypes = { "cs" },
           handlers = {
             ["textDocument/definition"] = function(...)
               return require("omnisharp_extended").handler(...)
