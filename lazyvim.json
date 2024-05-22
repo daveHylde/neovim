@@ -1,6 +1,7 @@
 {
   "extras": [
     "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.dap.nlua",
     "lazyvim.plugins.extras.editor.harpoon2",
     "lazyvim.plugins.extras.editor.trouble-v3",
     "lazyvim.plugins.extras.formatting.prettier",
@@ -9,6 +10,8 @@
     "lazyvim.plugins.extras.lang.json",
     "lazyvim.plugins.extras.lang.markdown",
     "lazyvim.plugins.extras.lang.omnisharp",
+    "lazyvim.plugins.extras.lang.tailwind",
+    "lazyvim.plugins.extras.lang.toml",
     "lazyvim.plugins.extras.lang.typescript",
     "lazyvim.plugins.extras.lang.yaml",
     "lazyvim.plugins.extras.linting.eslint",
@@ -16,7 +19,7 @@
     "lazyvim.plugins.extras.util.dot"
   ],
   "news": {
-    "NEWS.md": "3314"
+    "NEWS.md": "4964"
   },
-  "version": 3
+  "version": 4
 }
