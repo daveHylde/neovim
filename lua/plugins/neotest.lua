@@ -1,23 +1,26 @@
 return {
-  "nvim-neotest/neotest",
-  dependencies = {
-    "nvim-neotest/neotest-plenary",
-    "Issafalcon/neotest-dotnet",
-    "thenbe/neotest-playwright",
-  },
-  opts = {
-    adapters = {
-      "neotest-plenary",
-      require("neotest-dotnet")({
-        dap = {
-          justMyCode = false,
-          adapter_name = "netcoredbg",
-        },
-        dotnet_additional_args = {
-          '--collect:"XPlat Code Coverage"',
-        },
-        discovery_root = "solution",
-      }),
+  { "Issafalcon/neotest-dotnet" },
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      adapters = {
+        require("neotest-dotnet")({
+          dap = {
+            justMyCode = false,
+            adapter_name = "netcoredbg",
+          },
+          dotnet_additional_args = {
+            '--collect:"XPlat Code Coverage"',
+          },
+          discovery_root = "solution",
+        }),
+      },
     },
   },
 }
