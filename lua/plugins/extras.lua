@@ -28,9 +28,7 @@ return {
   { "tpope/vim-dotenv", cmd = "Dotenv" },
   { "jlcrochet/vim-razor" },
   { "andreshazard/vim-freemarker" },
-  { "garyhurtz/cmp_bulma.nvim", opts = {} },
   { "3rd/image.nvim", opts = {} },
-  { "camdencheek/tree-sitter-dockerfile" },
   {
     "norcalli/nvim-colorizer.lua",
     opts = {
