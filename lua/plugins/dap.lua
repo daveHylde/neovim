@@ -4,7 +4,7 @@ return {
     require("dap.ext.vscode").load_launchjs(nil, { netcoredbg = { "cs", "sln" } })
     require("dap").adapters["netcoredbg"] = {
       type = "executable",
-      command = "netcoredbg",
+      command = "/etc/profiles/per-user/david/bin/netcoredbg",
       args = { "--interpreter=vscode" },
     }
   end,
