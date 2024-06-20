@@ -14,10 +14,7 @@ return {
             justMyCode = false,
             adapter_name = "netcoredbg",
           },
-          dotnet_additional_args = {
-            '--collect:"XPlat Code Coverage"',
-          },
-          discovery_root = "solution",
+           discovery_root = "solution",
         }),
       },
     },
