@@ -35,10 +35,6 @@ vim.keymap.set("n", "<F12>", function()
 end, { desc = "Step Over" })
 
 -- undotree
-vim.keymap.set("n", "<leader>uu", function()
-  vim.cmd("UndotreeToggle")
-  vim.cmd("UndotreeFocus")
-end, { desc = "Toggle Undotree" })
 
 -- Move to window using the <alt> yneo keys
 vim.keymap.set("n", "<c-Left>", ":TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true, remap = true })

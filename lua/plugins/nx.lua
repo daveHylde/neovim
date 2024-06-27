@@ -1,0 +1,13 @@
+return {
+  "Equilibris/nx.nvim",
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+  },
+  lazy = false,
+  opts = {
+    nx_cmd_root = "npx nx",
+  },
+  keys = {
+    { "<leader>nx", "<cmd>Telescope nx actions<CR>", desc = "nx actions" },
+  },
+}
