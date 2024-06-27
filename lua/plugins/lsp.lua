@@ -23,7 +23,7 @@ return {
           root_dir = util.root_pattern("package.json", ".git", "tsconfig.base.json"),
           keys = {
             { "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
-            { "<leader>cR", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" },
+            { "<leader>cR", "<cmd>TypescriptRenameFile<CR>",      desc = "Rename File" },
           },
         },
         angularls = {
@@ -34,6 +34,9 @@ return {
           filetypes = { "cs" },
           enable_roslyn_analyzers = true,
         },
+        lua_ls = {
+          cmd = { "/etc/profiles/per-user/david/bin/lua-language-server" },
+        }
       },
     },
   },
