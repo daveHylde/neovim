@@ -3,7 +3,6 @@ return {
   dependencies = {
     "nvim-telescope/telescope.nvim",
   },
-  lazy = false,
   opts = {
     nx_cmd_root = "npx nx",
   },
