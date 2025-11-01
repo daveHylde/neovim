@@ -22,3 +22,5 @@ vim.keymap.set(
   ":TmuxNavigatePrevious<CR>",
   { desc = "Go to Previous Window", silent = true, remap = true }
 )
+
+vim.keymap.set({ "n", "x", "v" }, "<C-y>", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude Code" })
