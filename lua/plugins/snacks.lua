@@ -15,5 +15,8 @@ return {
         return true
       end,
     },
+    scroll = {
+      enabled = false, -- Disable scrolling animations
+    },
   },
 }
