@@ -3,3 +3,5 @@
 -- Add any additional options here
 vim.opt.relativenumber = false
 vim.opt.cursorline = false
+vim.opt.swapfile = false
+vim.g.minipairs_disable = true
