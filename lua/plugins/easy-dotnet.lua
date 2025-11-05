@@ -27,14 +27,13 @@ return {
         analyzer_assemblies = {}, -- Any additional roslyn analyzers you might use like SonarAnalyzer.CSharp
         config = {},
       },
-      -- debugger = {
-      --   -- The path to netcoredbg executable
-      --   bin_path = nil,
-      --   auto_register_dap = true,
-      --   mappings = {
-      --     open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
-      --   },
-      -- },
+      debugger = {
+        bin_path = "~/.local/share/nvim/mason/bin/netcoredbg",
+        auto_register_dap = true,
+        mappings = {
+          open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
+        },
+      },
       ---@type TestRunnerOptions
       test_runner = {
         ---@type "split" | "vsplit" | "float" | "buf"
