@@ -9,7 +9,7 @@ vim.keymap.set({ "n", "i" }, "<C-Up>", "<C-w>k", { desc = "Go to Upper Window" }
 vim.keymap.set({ "n", "i" }, "<C-Right>", "<C-w>l", { desc = "Go to Right Window" })
 
 -- Navigate away from Claude Code
-vim.keymap.set("n", "<C-y>", "<C-w>p", { desc = "Go to Previous Window" })
+vim.keymap.set("n", "<C-y>", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude" })
 
 -- Move to window using the <alt> yneo keys
 vim.keymap.set("n", "<c-Left>", ":TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true, remap = true })
