@@ -5,13 +5,6 @@
 if vim.g.vscode then
   -- VSCode extension
 else
-  -- ordinary Neovim
-  -- Window navigation with Ctrl+arrows
-  vim.keymap.set({ "n", "i" }, "<C-Left>", "<C-w>h", { desc = "Go to Left Window" })
-  vim.keymap.set({ "n", "i" }, "<C-Down>", "<C-w>j", { desc = "Go to Lower Window" })
-  vim.keymap.set({ "n", "i" }, "<C-Up>", "<C-w>k", { desc = "Go to Upper Window" })
-  vim.keymap.set({ "n", "i" }, "<C-Right>", "<C-w>l", { desc = "Go to Right Window" })
-
   -- Navigate away from Claude Code
   vim.keymap.set("n", "<C-y>", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude" })
 
@@ -52,4 +45,3 @@ else
     dap.step_over()
   end, { desc = "Step Over" })
 end
-
