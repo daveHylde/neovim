@@ -25,6 +25,12 @@ else
     { desc = "Go to Previous Window", silent = true, remap = true }
   )
 
+  -- Terminal mode navigation (for Claude Code and other terminals)
+  vim.keymap.set("t", "<c-Left>", "<C-\\><C-n>:TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true })
+  vim.keymap.set("t", "<c-Down>", "<C-\\><C-n>:TmuxNavigateDown<CR>", { desc = "Go to Lower Window", silent = true })
+  vim.keymap.set("t", "<c-Up>", "<C-\\><C-n>:TmuxNavigateUp<CR>", { desc = "Go to Upper Window", silent = true })
+  vim.keymap.set("t", "<c-Right>", "<C-\\><C-n>:TmuxNavigateRight<CR>", { desc = "Go to Right Window", silent = true })
+
   -- Resize window using <alt> arrow keys
   vim.keymap.set("n", "<M-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
   vim.keymap.set("n", "<M-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
