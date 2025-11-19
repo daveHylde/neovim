@@ -3,19 +3,8 @@ return {
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local function get_secret_path(secret_guid)
-      local path = ""
       local home_dir = vim.fn.expand("~")
-      if require("easy-dotnet.extensions").isWindows() then
-        local secret_path = home_dir
-          .. "\\AppData\\Roaming\\Microsoft\\UserSecrets\\"
-          .. secret_guid
-          .. "\\secrets.json"
-        path = secret_path
-      else
-        local secret_path = home_dir .. "/.microsoft/usersecrets/" .. secret_guid .. "/secrets.json"
-        path = secret_path
-      end
-      return path
+      return home_dir .. "/.microsoft/usersecrets/" .. secret_guid .. "/secrets.json"
     end
 
     local dotnet = require("easy-dotnet")
@@ -28,7 +17,7 @@ return {
         config = {},
       },
       debugger = {
-        bin_path = "~/.local/share/nvim/mason/bin/netcoredbg",
+        bin_path = vim.fn.expand("~/.local/share/nvim/mason/bin/netcoredbg"),
         auto_register_dap = true,
         mappings = {
           open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
