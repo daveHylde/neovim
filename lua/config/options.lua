@@ -5,3 +5,7 @@ vim.opt.relativenumber = false
 vim.opt.cursorline = false
 vim.opt.swapfile = false
 vim.g.minipairs_disable = true
+
+-- Disable automatic root directory detection
+-- Keep the root directory fixed to where nvim was opened
+vim.g.root_spec = { "cwd" }

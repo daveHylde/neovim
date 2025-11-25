@@ -1,12 +1,7 @@
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+  dependencies = { "nvim-lua/plenary.nvim", "snacks.nvim" },
   config = function()
-    local function get_secret_path(secret_guid)
-      local home_dir = vim.fn.expand("~")
-      return home_dir .. "/.microsoft/usersecrets/" .. secret_guid .. "/secrets.json"
-    end
-
     local dotnet = require("easy-dotnet")
     -- Options are not required
     dotnet.setup({
@@ -32,7 +27,7 @@ return {
         ---@type string|nil "topleft" | "topright"
         vsplit_pos = nil,
         enable_buffer_test_execution = true, --Experimental, run tests directly from buffer
-        noBuild = true,
+        noBuild = false,
         icons = {
           passed = "",
           skipped = "",
@@ -96,17 +91,14 @@ return {
         vim.cmd("vsplit")
         vim.cmd("term " .. command)
       end,
-      secrets = {
-        path = get_secret_path,
-      },
       csproj_mappings = true,
-      fsproj_mappings = true,
+      fsproj_mappings = false,
       auto_bootstrap_namespace = {
         --block_scoped, file_scoped
         type = "block_scoped",
         enabled = true,
         use_clipboard_json = {
-          behavior = "prompt", --'auto' | 'prompt' | 'never',
+          behavior = "never", --'auto' | 'prompt' | 'never',
           register = "+", -- which register to check
         },
       },
