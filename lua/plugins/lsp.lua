@@ -2,7 +2,13 @@ return {
   "neovim/nvim-lspconfig",
   opts = {
     inlay_hints = { enabled = false },
-    servers = { eslint = {} },
+    servers = {
+      eslint = {},
+      -- HTML LSP for Razor file completions and formatting
+      html = {
+        filetypes = { "html", "razor", "cshtml" },
+      },
+    },
     setup = {
       eslint = function()
         vim.api.nvim_create_autocmd("LspAttach", {

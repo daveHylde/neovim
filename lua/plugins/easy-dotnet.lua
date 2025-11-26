@@ -3,10 +3,11 @@ return {
   dependencies = { "nvim-lua/plenary.nvim", "snacks.nvim" },
   config = function()
     local dotnet = require("easy-dotnet")
+
     -- Options are not required
     dotnet.setup({
       lsp = {
-        enabled = true, -- Enable builtin roslyn lsp
+        enabled = false, -- Disable builtin roslyn lsp - using seblyng/roslyn.nvim instead
         roslynator_enabled = true, -- Automatically enable roslynator analyzer
         analyzer_assemblies = {}, -- Any additional roslyn analyzers you might use like SonarAnalyzer.CSharp
         config = {},
