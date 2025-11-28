@@ -5,9 +5,6 @@
 if vim.g.vscode then
   -- VSCode extension
 else
-  -- Navigate away from Claude Code
-  vim.keymap.set("n", "<C-a>", "<cmd>CodeCompanionChat toggle<cr>", { desc = "Toggle CodeCompanion" })
-
   -- Move to window using the <alt> yneo keys
   vim.keymap.set("n", "<c-Left>", ":TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true, remap = true })
   vim.keymap.set("n", "<c-Down>", ":TmuxNavigateDown<CR>", { desc = "Go to Lower Window", silent = true, remap = true })
