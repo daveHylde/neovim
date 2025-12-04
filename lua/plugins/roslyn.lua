@@ -4,7 +4,7 @@ return {
   config = function()
     -- Get rzls handlers and paths
     local rzls_handlers = require("rzls.roslyn_handlers")
-    local rzls_path = vim.fn.expand("~/.local/share/nvim/mason/packages/rzls-unstable/libexec")
+    local rzls_path = vim.fn.expand("~/.local/share/nvim/mason/packages/rzls/libexec")
 
     -- Configure Roslyn LSP with rzls extension
     vim.lsp.config("roslyn", {
