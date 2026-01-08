@@ -6,6 +6,9 @@ return {
       html = {
         filetypes = { "html", "razor", "cshtml" },
       },
+      cssls = {
+        filetypes = { "razor", "cshtml", "css", "scss", "less" },
+      },
     },
   },
 }
