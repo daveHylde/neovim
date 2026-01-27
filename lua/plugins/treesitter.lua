@@ -1,11 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  ---@class lazyvim.TSConfig: TSConfig
   opts = {
-    -- LazyVim config for treesitter
-    indent = { enable = true }, ---@type lazyvim.TSFeat
-    highlight = { enable = true }, ---@type lazyvim.TSFeat
-    folds = { enable = true }, ---@type lazyvim.TSFeat
+    indent = { enable = true },
+    highlight = { enable = true },
+    folds = { enable = true },
     ensure_installed = {
       "bash",
       "c",

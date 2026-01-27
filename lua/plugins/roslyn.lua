@@ -4,6 +4,11 @@ return {
   config = function()
     -- Configure Roslyn LSP with rzls extension
     vim.lsp.config("roslyn", {
+      on_attach = function(client, bufnr)
+        -- Disable semantic tokens to avoid the nil semanticTokensProvider error
+        -- Roslyn dynamically registers this capability but the provider isn't always available
+        client.server_capabilities.semanticTokensProvider = nil
+      end,
       settings = {
         ["csharp|inlay_hints"] = {
           csharp_enable_inlay_hints_for_implicit_object_creation = true,

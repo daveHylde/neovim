@@ -15,7 +15,7 @@ return {
         adapters = {
           require("neotest-vstest")({
             dap_settings = {
-              type = "netcoredbg",
+              type = "coreclr",
             },
           }),
         },
