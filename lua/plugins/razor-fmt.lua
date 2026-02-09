@@ -2,7 +2,7 @@
 return {
   "daveHylde/razor-fmt",
   dependencies = { "nvim-lua/plenary.nvim", "stevearc/conform.nvim" },
-  event = "VeryLazy",
+  ft = { "razor", "cshtml" },
   opts = {
     html = {
       max_attributes_per_line = 2
