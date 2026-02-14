@@ -47,4 +47,7 @@ else
   vim.keymap.set({ "n", "v" }, "<F12>", function()
     dap.step_over()
   end, { desc = "Step Over" })
+
+  -- QOL
+  vim.keymap.set({ "n", "v" }, "<leader>r", "<C-\\><C-n>:Dotnet build solution quickfix<CR>", { desc = "Dotnet build quickfix", silent = true })
 end
