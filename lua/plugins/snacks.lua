@@ -20,7 +20,31 @@ return {
     },
     -- Required for opencode.nvim
     input = {},
-    picker = {},
+    picker = {
+      sources = {
+        files = {
+          hidden = true,
+          ignored = true,
+          exclude = { "**/roslyn-source-generated:**" },
+        },
+        grep = {
+          hidden = true,
+          ignored = true,
+          exclude = { "**/roslyn-source-generated:**" },
+        },
+      },
+      filter = {
+        ---@param item snacks.picker.Item
+        filter = function(item)
+          if item.file then
+            if item.file:match("^roslyn%-source%-generated:") or item.file:match("/roslyn%-source%-generated:") then
+              return false
+            end
+          end
+          return true
+        end,
+      },
+    },
     terminal = {},
   },
 }

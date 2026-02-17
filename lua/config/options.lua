@@ -10,9 +10,9 @@ vim.g.autoformat = false
 -- Hide Roslyn's virtual/generated tree from completion/file prompts
 -- (e.g. a literal folder named `roslyn-source-generated:` in the project root)
 vim.opt.wildignore:append({
-  "roslyn-source-generated:",
-  "roslyn-source-generated:/*",
-  "*/roslyn-source-generated:/*",
+  "roslyn-source-generated:*",
+  "**/roslyn-source-generated:*",
+  "roslyn-source-generated:**",
 })
 
 -- Keep editor artifacts out of the repo/worktree (also avoids weird virtual-buffer names creating folders)
