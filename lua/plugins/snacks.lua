@@ -23,8 +23,6 @@ return {
     picker = {
       sources = {
         files = {
-          hidden = true,
-          ignored = true,
           exclude = { "**/roslyn-source-generated:**" },
         },
         grep = {

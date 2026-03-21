@@ -49,5 +49,5 @@ else
   end, { desc = "Step Over" })
 
   -- QOL
-  vim.keymap.set({ "n", "v" }, "<leader>r", "<C-\\><C-n>:Dotnet build solution quickfix<CR>", { desc = "Dotnet build quickfix", silent = true })
+  vim.keymap.set({ "n", "v" }, "<leader>cb", "<C-\\><C-n>:Dotnet build solution quickfix<CR>", { desc = "Dotnet build quickfix", silent = true })
 end

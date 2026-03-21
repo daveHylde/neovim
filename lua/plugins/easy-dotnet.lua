@@ -6,6 +6,10 @@ return {
 
     -- Options are not required
     dotnet.setup({
+      managed_terminal = {
+        auto_hide = true, -- auto hides terminal if exit code is 0
+        auto_hide_delay = 1000, -- delay before auto hiding, 0 = instant
+      },
       lsp = {
         enabled = false, -- Disable builtin roslyn lsp - using seblyng/roslyn.nvim instead
         roslynator_enabled = true, -- Automatically enable roslynator analyzer
@@ -14,6 +18,8 @@ return {
       },
       debugger = {
         bin_path = vim.fn.expand("~/.local/share/nvim/mason/bin/netcoredbg"),
+        console = "integratedTerminal", -- Controls where the target app runs: "integratedTerminal" or "externalTerminal"
+        apply_value_converters = true, -- Apply value converters for better debugging
         auto_register_dap = true,
         mappings = {
           open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
@@ -21,6 +27,8 @@ return {
       },
       ---@type TestRunnerOptions
       test_runner = {
+        auto_start_testrunner = true, -- Auto-start when server starts
+        hide_legend = false, -- Hide the keymap legend
         ---@type "split" | "vsplit" | "float" | "buf"
         viewmode = "float",
         ---@type number|nil
@@ -40,6 +48,8 @@ return {
           project = "󰘐",
           dir = "",
           package = "",
+          class = "", -- Missing icon added
+          build_failed = "󰒡", -- Missing icon added
         },
         mappings = {
           run_test_from_buffer = { lhs = "<leader>r", desc = "run test from buffer" },
@@ -56,6 +66,9 @@ return {
           collapse_all = { lhs = "W", desc = "collapse all" },
           close = { lhs = "q", desc = "close testrunner" },
           refresh_testrunner = { lhs = "<C-r>", desc = "refresh testrunner" },
+          get_build_errors = { lhs = "<leader>e", desc = "get build errors" }, -- Added mapping
+          debug_test_from_buffer = { lhs = "<leader>d", desc = "debug test from buffer" }, -- Added mapping
+          cancel = { lhs = "<C-c>", desc = "cancel in-flight operation" }, -- Added mapping
         },
         --- Optional table of extra args e.g "--blame crash"
         additional_args = {},
