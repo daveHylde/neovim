@@ -25,3 +25,10 @@ vim.opt.undofile = true
 -- Disable automatic root directory detection
 -- Keep the root directory fixed to where nvim was opened
 vim.g.root_spec = { "cwd" }
+
+vim.filetype.add({
+    extension = {
+        razor = "razor",
+        cshtml = "razor",
+    },
+})

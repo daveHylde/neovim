@@ -1,5 +1,7 @@
 return {
   "seblyng/roslyn.nvim",
+  lazy = false,
+  commit = "82d0c9724c3f8eab7342a3a136782b4788070bd0",
   config = function()
     -- Configure Roslyn LSP with rzls extension
     vim.lsp.config("roslyn", {
