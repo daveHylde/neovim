@@ -22,7 +22,7 @@ else
     { desc = "Go to Previous Window", silent = true, remap = true }
   )
 
-  -- Terminal mode navigation (for Claude Code and other terminals)
+  -- Terminal mode navigation (for and other terminals)
   vim.keymap.set("t", "<c-Left>", "<C-\\><C-n>:TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true })
   vim.keymap.set("t", "<c-Down>", "<C-\\><C-n>:TmuxNavigateDown<CR>", { desc = "Go to Lower Window", silent = true })
   vim.keymap.set("t", "<c-Up>", "<C-\\><C-n>:TmuxNavigateUp<CR>", { desc = "Go to Upper Window", silent = true })
@@ -47,6 +47,37 @@ else
   vim.keymap.set({ "n", "v" }, "<F12>", function()
     dap.step_over()
   end, { desc = "Step Over" })
+
+  -- Spell language picker
+  local function pick_spell_lang()
+    local languages = {
+      { name = "English", code = "en" },
+      { name = "Norwegian (Bokmål)", code = "nb" },
+    }
+
+    Snacks.picker.select(languages, {
+      prompt = "Select spell language",
+      format_item = function(item)
+        local current = vim.opt.spelllang:get()[1] or "en"
+        local indicator = item.code == current and " ●" or ""
+        return item.name .. indicator
+      end,
+    }, function(item)
+      if item then
+        vim.opt.spelllang = item.code
+        vim.opt.spell = true
+        vim.notify("Spell language set to " .. item.name, vim.log.levels.INFO)
+      end
+    end)
+  end
+
+  vim.keymap.set("n", "<leader>ut", pick_spell_lang, { desc = "Select spell language" })
+
+  -- Spell fix mappings
+  vim.keymap.set("n", "zn", function()
+    Snacks.picker.spelling()
+  end, { desc = "Fix spelling (Snacks picker)" })
+  vim.keymap.set("n", "zN", ":spellr<CR>", { desc = "Repeat last spelling fix in file", silent = true })
 
   -- QOL
   vim.keymap.set({ "n", "v" }, "<leader>cb", "<C-\\><C-n>:Dotnet build solution quickfix<CR>", { desc = "Dotnet build quickfix", silent = true })

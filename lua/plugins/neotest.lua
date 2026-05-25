@@ -8,16 +8,12 @@ return {
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "Nsidorenco/neotest-vstest",
+      "GustavEikaas/easy-dotnet.nvim",
     },
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-vstest")({
-            dap_settings = {
-              type = "coreclr",
-            },
-          }),
+          require("easy-dotnet.neotest"),
         },
         quickfix = {
           open = function()
