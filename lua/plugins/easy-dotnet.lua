@@ -30,6 +30,14 @@ return {
         easy_dotnet_analyzer_enabled = true, -- Enable roslyn analyzer from easy-dotnet-server
         auto_refresh_codelens = true,
         analyzer_assemblies = {}, -- Any additional roslyn analyzers you might use like SonarAnalyzer.CSharp
+        razor = {
+          enabled = true,
+          html = {
+            enabled = true,
+            cmd = nil, -- Auto-detect project node_modules/.bin/vscode-html-language-server, then PATH
+            request_timeout = 5000,
+          },
+        },
         config = {},
       },
       debugger = {

@@ -3,14 +3,14 @@ return {
   opts = {
     formatters_by_ft = {
       cs = { "csharpier" },
-      csproj = { "xmlformat" },
-      xml = { "xmlformat" },
-      razor = { "razor_fmt" },
+      -- csproj = { "xmlformat" },
+      -- xml = { "xmlformat" },
+      -- razor = { "razor_fmt" },
     },
     formatters = {
-      xmlformat = {
-        command = "xmlformat",
-      },
+      -- xmlformat = {
+      --   command = "xmlformat",
+      -- },
       csharpier = {
         command = "csharpier",
         args = { "format", "--write-stdout" },
