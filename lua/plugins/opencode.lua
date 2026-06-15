@@ -11,9 +11,14 @@ return {
       -- Required for `opts.events.reload`.
       vim.o.autoread = true
 
+      local opencode_cmd = "opencode --port"
+      local snacks_terminal_opts = {
+        win = { position = "right", enter = false },
+      }
+
       -- Recommended/example keymaps.
       vim.keymap.set({ "n", "t" }, "<C-y>", function()
-        require("opencode").toggle()
+        require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts)
       end, { desc = "Toggle opencode" })
       vim.keymap.set({ "n", "x" }, "<leader>a", function()
         require("opencode").ask("@this: ", { submit = true })
