@@ -53,30 +53,7 @@ return {
       },
       ---@type TestRunnerOptions
       test_runner = {
-        auto_start_testrunner = true,
-        hide_legend = false,
-        -- Set to true when using neotest to avoid duplicate signs and conflicting buffer keymaps.
-        neotest_integration = true,
-        ---@type "split" | "vsplit" | "float" | "buf"
-        viewmode = "split",
-        ---@type number|nil
-        vsplit_width = nil,
-        ---@type string|nil "topleft" | "topright"
-        vsplit_pos = nil,
-        icons = {
-          passed = "",
-          skipped = "",
-          failed = "",
-          success = "",
-          reload = "",
-          test = "",
-          sln = "󰘐",
-          project = "󰘐",
-          dir = "",
-          package = "",
-          class = "",
-          build_failed = "󰒡",
-        },
+        enabled = false,
       },
       new = {
         project = {
@@ -120,15 +97,5 @@ return {
         },
       },
     })
-
-    -- Example command
-    vim.api.nvim_create_user_command("Secrets", function()
-      dotnet.secrets()
-    end, {})
-
-    -- Example keybinding
-    vim.keymap.set("n", "<C-p>", function()
-      dotnet.run_project()
-    end)
   end,
 }
