@@ -18,7 +18,6 @@ return {
     scroll = {
       enabled = false, -- Disable scrolling animations
     },
-    -- Required for opencode.nvim
     input = {},
     picker = {
       sources = {
