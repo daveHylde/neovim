@@ -5,34 +5,10 @@
 if vim.g.vscode then
   -- VSCode extension
 else
-  -- Move to window using the <alt> yneo keys
-  vim.keymap.set("n", "<c-Left>", ":TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true, remap = true })
-  vim.keymap.set("n", "<c-Down>", ":TmuxNavigateDown<CR>", { desc = "Go to Lower Window", silent = true, remap = true })
-  vim.keymap.set("n", "<c-Up>", ":TmuxNavigateUp<CR>", { desc = "Go to Upper Window", silent = true, remap = true })
-  vim.keymap.set(
-    "n",
-    "<c-Right>",
-    ":TmuxNavigateRight<CR>",
-    { desc = "Go to Right Window", silent = true, remap = true }
-  )
-  vim.keymap.set(
-    "n",
-    "<c-p>",
-    ":TmuxNavigatePrevious<CR>",
-    { desc = "Go to Previous Window", silent = true, remap = true }
-  )
-
-  -- Terminal mode navigation (for and other terminals)
-  vim.keymap.set("t", "<c-Left>", "<C-\\><C-n>:TmuxNavigateLeft<CR>", { desc = "Go to Left Window", silent = true })
-  vim.keymap.set("t", "<c-Down>", "<C-\\><C-n>:TmuxNavigateDown<CR>", { desc = "Go to Lower Window", silent = true })
-  vim.keymap.set("t", "<c-Up>", "<C-\\><C-n>:TmuxNavigateUp<CR>", { desc = "Go to Upper Window", silent = true })
-  vim.keymap.set("t", "<c-Right>", "<C-\\><C-n>:TmuxNavigateRight<CR>", { desc = "Go to Right Window", silent = true })
-
-  -- Resize window using <alt> arrow keys
-  vim.keymap.set("n", "<M-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-  vim.keymap.set("n", "<M-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-  vim.keymap.set("n", "<M-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-  vim.keymap.set("n", "<M-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+  -- <c-arrow> navigation and <M-arrow> resizing now come from herdr-splits.nvim
+  -- (see plugins/herdr.lua) — it crosses Neovim splits and Herdr panes as one layout.
+  -- The old :TmuxNavigate* maps were dead: tmux isn't in the picture anymore.
+  vim.keymap.set("n", "<c-p>", "<C-w>p", { desc = "Go to Previous Window", silent = true })
 
   local dap = require("dap")
   vim.keymap.set({ "n", "v" }, "<F5>", function()
