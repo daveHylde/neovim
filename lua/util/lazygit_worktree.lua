@@ -1,17 +1,26 @@
 -- Make Neovim follow lazygit when it switches worktree (or repo).
 --
--- lazygit changes the working directory of *its own process* when you switch
--- worktree, so nothing is communicated back to Neovim. While a lazygit
--- terminal is open we poll `/proc/<pid>/cwd` (cheap: a single readlink), and
--- when it moves we `:cd` there and re-point every open buffer at the same
--- relative path in the new worktree.
+-- lazygit changes the working directory of *its own process*, so nothing is
+-- communicated back to Neovim. Two observed signals are combined here:
+--
+--   1. `/proc/<pid>/cwd` of our lazygit child is the source of truth. It is
+--      unambiguous (it is *our* lazygit, not another Neovim's) and it covers
+--      both worktree switches and repo switches (`<c-r>`).
+--   2. lazygit rewrites `state.yml` *at switch time* (not on exit), in place,
+--      promoting the new worktree to `recentrepos[0]`. Watching that file gives
+--      an instant trigger instead of waiting out a poll interval, and lets us
+--      recover a switch made in the last moments before lazygit exited, when
+--      /proc is already gone.
+--
+-- state.yml is global, so it is only ever used as a *trigger* (re-read /proc) or,
+-- at exit, gated behind a same-repository check.
 --
 -- Linux only (needs /proc). Fires `User LazygitWorktreeChanged` on success.
 
 local M = {}
 
 local uv = vim.uv or vim.loop
-local POLL_MS = 400
+local POLL_MS = 1000 -- safety net; state.yml watching is the fast path
 
 ---@param pid integer
 ---@return string?
@@ -69,12 +78,59 @@ local function find_lazygit(pid, depth)
   return nil
 end
 
+--- Path of lazygit's state file, which is separate from its config dir
+--- (`lazygit -cd` prints the config dir, so it cannot be used here).
+---@return string?
+local function state_file()
+  local dir = vim.env.XDG_STATE_HOME or (vim.env.HOME .. "/.local/state")
+  local path = vim.fs.normalize(dir .. "/lazygit/state.yml")
+  return uv.fs_stat(path) and path or nil
+end
+
+--- Most recently opened repo/worktree according to lazygit's state file.
+---@return string?
+local function state_repo()
+  local path = state_file()
+  local fd = path and io.open(path, "r")
+  if not fd then
+    return nil
+  end
+  local found, in_list ---@type string?, boolean
+  for line in fd:lines() do
+    if in_list then
+      local repo = line:match("^%s*%-%s+(.+)%s*$")
+      found = repo and vim.fs.normalize((repo:gsub('^"(.*)"$', "%1"))) or nil
+      break -- only the first entry is current
+    elseif line:match("^recentrepos:") then
+      in_list = true
+    end
+  end
+  fd:close()
+  return found
+end
+
 ---@param dir string
 ---@return boolean
 local function is_git_root(dir)
   local git = dir .. "/.git"
   -- a linked worktree has a `.git` file, the main worktree a directory
   return vim.fn.isdirectory(git) == 1 or vim.fn.filereadable(git) == 1
+end
+
+--- The shared `.git` dir, used to tell worktrees of one repo apart from
+--- unrelated repos.
+---@param dir string
+---@return string?
+local function git_common_dir(dir)
+  local ok, res = pcall(function()
+    return vim
+      .system({ "git", "-C", dir, "rev-parse", "--path-format=absolute", "--git-common-dir" }, { text = true })
+      :wait(2000)
+  end)
+  if not ok or res.code ~= 0 then
+    return nil
+  end
+  return vim.fs.normalize(vim.trim(res.stdout))
 end
 
 --- Re-point a buffer's window(s) at `path`, keeping the cursor position.
@@ -95,6 +151,23 @@ local function replace_buf(buf, path)
   end
 
   pcall(vim.api.nvim_buf_delete, buf, {})
+end
+
+--- Shut down language servers left rooted in the worktree we moved away from.
+--- Without this, every switch strands a server (expensive for e.g. roslyn).
+---@param old_root string
+local function stop_orphan_clients(old_root)
+  vim.defer_fn(function()
+    for _, client in ipairs(vim.lsp.get_clients()) do
+      local root = client.root_dir and vim.fs.normalize(client.root_dir)
+      local rooted_in_old = root and (root == old_root or vim.startswith(root, old_root .. "/"))
+      if rooted_in_old and next(client.attached_buffers or {}) == nil then
+        pcall(function()
+          client:stop()
+        end)
+      end
+    end
+  end, 2000)
 end
 
 --- Move Neovim (cwd + buffers) to `new_root`.
@@ -133,6 +206,7 @@ function M.follow(new_root)
     replace_buf(buf, target)
   end
   vim.cmd.checktime()
+  stop_orphan_clients(old_root)
 
   local msg = { ("Followed lazygit to `%s`"):format(vim.fn.fnamemodify(new_root, ":~")) }
   table.insert(msg, ("- %d buffer(s) moved"):format(vim.tbl_count(moves)))
@@ -151,7 +225,43 @@ function M.follow(new_root)
   return true
 end
 
---- Poll a running lazygit process for cwd changes.
+--- Follow the repo named in lazygit's state file, if it is a worktree of the
+--- repo we are currently in. Used when lazygit has already exited (so /proc is
+--- gone); also handy manually if a switch is ever missed.
+---@param ignore? string a path to treat as "no change" (where lazygit started)
+---@return boolean moved
+function M.follow_state(ignore)
+  local cwd = vim.fs.normalize(uv.cwd() or "")
+  local repo = state_repo()
+  if not repo or repo == cwd or repo == ignore or vim.fn.isdirectory(repo) == 0 then
+    return false
+  end
+  local common = git_common_dir(cwd)
+  if not common or common ~= git_common_dir(repo) then
+    return false -- a different repository: another lazygit wrote this
+  end
+  return M.follow(repo)
+end
+
+--- `Snacks.terminal` keys its instance cache on cwd, so after a follow the
+--- running lazygit can never be toggled back — it would linger as an
+--- unreachable background process. Wipe it once it is out of sight.
+---@param buf integer
+local function wipe_when_hidden(buf)
+  vim.api.nvim_create_autocmd({ "BufHidden", "BufWinLeave" }, {
+    buffer = buf,
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(buf) and vim.fn.bufwinid(buf) == -1 then
+          pcall(vim.api.nvim_buf_delete, buf, { force = true })
+        end
+      end)
+    end,
+  })
+end
+
+--- Watch a running lazygit for cwd changes.
 ---@param buf integer terminal buffer, watched so we stop when it goes away
 ---@param pid integer
 local function watch(buf, pid)
@@ -159,26 +269,61 @@ local function watch(buf, pid)
   if not last then
     return
   end
+  local start = last
+  local stopped = false
 
-  local timer = assert(uv.new_timer())
-  timer:start(
-    POLL_MS,
-    POLL_MS,
-    vim.schedule_wrap(function()
-      local cwd = proc_cwd(pid)
-      if not cwd or not vim.api.nvim_buf_is_valid(buf) then
-        if not timer:is_closing() then
-          timer:stop()
-          timer:close()
-        end
-        return
+  local timer, fs_event = assert(uv.new_timer()), uv.new_fs_event()
+
+  local function stop()
+    if stopped then
+      return
+    end
+    stopped = true
+    if not timer:is_closing() then
+      timer:stop()
+      timer:close()
+    end
+    if fs_event and not fs_event:is_closing() then
+      fs_event:stop()
+      fs_event:close()
+    end
+  end
+
+  -- read our own lazygit's cwd; state.yml only ever acts as a trigger
+  local function check()
+    if stopped then
+      return
+    end
+    local cwd = proc_cwd(pid)
+    if not cwd or not vim.api.nvim_buf_is_valid(buf) then
+      return stop()
+    end
+    if cwd ~= last then
+      last = cwd
+      if M.follow(cwd) then
+        wipe_when_hidden(buf)
       end
-      if cwd ~= last then
-        last = cwd
-        M.follow(cwd)
-      end
-    end)
-  )
+    end
+  end
+
+  timer:start(POLL_MS, POLL_MS, vim.schedule_wrap(check))
+
+  local state = state_file()
+  if fs_event and state then
+    -- lazygit rewrites state.yml in place, so the watch survives the write
+    fs_event:start(state, {}, vim.schedule_wrap(check))
+  end
+
+  -- lazygit exited: /proc is gone, so fall back to state.yml for a switch we
+  -- may have missed, but only if it names a worktree of the same repository.
+  vim.api.nvim_create_autocmd("TermClose", {
+    buffer = buf,
+    once = true,
+    callback = function()
+      stop()
+      M.follow_state(start)
+    end,
+  })
 end
 
 function M.setup()
