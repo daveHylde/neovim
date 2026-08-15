@@ -7,6 +7,18 @@ local function term_nav(fn)
   return ("<C-\\><C-n><cmd>lua require('herdr-splits').%s()<cr>"):format(fn)
 end
 
+-- Focus the herdr pane hosting the currently targeted agent, whatever its
+-- kind (opencode, claude, ...). Falls back to the agent drawer when no
+-- target has been pinned yet.
+local function focus_agent_pane()
+  local target = require("herdr-context.targets").selected()
+  if target and target.pane_id then
+    vim.fn.jobstart({ "herdr", "agent", "focus", target.pane_id }, { detach = true })
+  else
+    require("herdr-context").agents()
+  end
+end
+
 return {
   {
     "lmilojevicc/herdr-splits.nvim",
@@ -43,12 +55,15 @@ return {
       claude = { enabled = true },
       codex = { enabled = false },
     },
+    -- Claude-only keys under <leader>ac: this plugin's unique value is the
+    -- claudecode.nvim IDE bridge (MCP diff review, connected pane). Sending
+    -- selections, references and diagnostics stays under <leader>a and is
+    -- handled for any agent kind by herdr-context below.
     keys = {
-      { "<C-y>", function() require("herdr-agents").open("claude") end, mode = { "n", "t" }, desc = "Open/focus Claude pane" },
-      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-      { "<leader>as", "<cmd>ClaudeHerdrSendSelection<cr>", mode = "v", desc = "Send selection" },
-      { "<leader>aA", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-      { "<leader>aD", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+      { "<leader>ac", "", desc = "+claude" },
+      { "<leader>aco", function() require("herdr-agents").open("claude") end, desc = "Open/focus Claude pane" },
+      { "<leader>aca", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>acd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
   },
 
@@ -56,10 +71,18 @@ return {
     "makyinmars/herdr-context.nvim",
     cond = inside_herdr,
     lazy = false,
-    opts = { remember_target = "workspace" },
+    opts = {
+      remember_target = "workspace",
+      -- Defaults only cover claude/codex; without this, multiline context
+      -- staged to opencode arrives as a temp-file reference instead of text
+      -- in its input.
+      bracketed_paste_agents = { claude = true, codex = true, opencode = true },
+    },
     keys = {
       { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
-      { "<leader>ac", function() require("herdr-context").compose() end, mode = { "n", "v" }, desc = "Compose context" },
+      { "<C-y>", focus_agent_pane, mode = { "n", "t" }, desc = "Focus agent pane" },
+      { "<leader>ao", function() require("herdr-context").delegate({ kind = "opencode" }) end, mode = { "n", "v" }, desc = "Delegate to new opencode agent" },
+      { "<leader>aC", function() require("herdr-context").compose() end, mode = { "n", "v" }, desc = "Compose context" },
       { "<leader>ap", function() require("herdr-context").prompt() end, mode = { "n", "v" }, desc = "Prompt with context" },
       { "<leader>ay", function() require("herdr-context").reference() end, mode = { "n", "v" }, desc = "Send reference" },
       { "<leader>aY", function() require("herdr-context").send() end, mode = { "n", "v" }, desc = "Send context" },
