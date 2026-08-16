@@ -4,6 +4,9 @@ return {
   dependencies = { "mfussenegger/nvim-dap" },
   config = function()
     require("mcp-tools").setup({
+      bridge = {
+        port = 4096, -- Fixed port so opencode can find the bridge deterministically
+      },
       tools = {
         dap = true, -- Debug Adapter Protocol tools (requires nvim-dap)
       },
@@ -73,6 +76,25 @@ return {
     -- a centered pane that steals focus and is never closed when an agent drives
     -- the session. Suppress that float branch; keep normal jump-to-frame.
     local dap = require("dap")
+
+    -- Standalone netcoredbg adapter + testhost launch config so dap_run can drive a
+    -- .NET test host headlessly (the easy-dotnet adapter is attach-only/interactive).
+    -- netcoredbg runs as a DAP server; nvim-dap launches it per session.
+    local netcoredbg =
+      vim.fn.expand("~/.local/share/nvim/mason/packages/netcoredbg/libexec/netcoredbg/netcoredbg")
+    dap.adapters["coreclr"] = function(callback, config)
+      if config and config.port then
+        -- attach mode: connect to an already-running netcoredbg server
+        callback({ type = "server", host = config.host or "127.0.0.1", port = config.port })
+      else
+        local port = config.port or 4714
+        local args = { "--interpreter=vscode", "--server=" .. port }
+        callback({ type = "server", host = "127.0.0.1", port = port, executable = { command = netcoredbg, args = args } })
+      end
+    end
+    -- Launch config: program is a testhost DLL (e.g. *_testhost/net.../X). args = test
+    -- filter etc. driven via dotnet exec.
+    dap.configurations["coreclr"] = dap.configurations["coreclr"] or {}
     local orig_focus_frame = dap.focus_frame
     dap.focus_frame = function(...)
       local session = dap.session()
